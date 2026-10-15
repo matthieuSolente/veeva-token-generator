@@ -60,11 +60,6 @@ $('.fragment-quantity').on('change', function () {
   const y = (q === 0) ? $(this).val() : "," + $(this).val();
   $("#custom_nb_wrapper .qty-output").eq(q).html(y);
 });
-});
-
-
-
-
 /***********************************************/
 /* COPY TO CLIPBOARD FUNCTION */
 /***********************************************/
@@ -87,7 +82,7 @@ $(document).on('click', '.copy', function () {
             console.error("Erreur :", err);
         });
 });
-
+});
 $(function () {
  thisyear = new Date().getFullYear();
  $('#year').text(thisyear);
