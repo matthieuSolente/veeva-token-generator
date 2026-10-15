@@ -60,6 +60,12 @@ $('.fragment-quantity').on('change', function () {
   const y = (q === 0) ? $(this).val() : "," + $(this).val();
   $("#custom_nb_wrapper .qty-output").eq(q).html(y);
 });
+
+  $('.token').wrap('<div class="token-block"></div>');   
+	$('.token-block').each(function(){     
+    	$(this).append('<button type="button" class="copy" aria-hidden="false" aria-label="Copy to clipboard">Copier</button>');
+	});   
+});
 /***********************************************/
 /* COPY TO CLIPBOARD FUNCTION */
 /***********************************************/
