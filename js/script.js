@@ -4,20 +4,31 @@
 
 $(function() {
   //inputs value
-  $("#inputs").on('input', 'input[type=text]', function(event) {
-  var i = $(this).closest(".flex-row").index();
-  var v = (i == 0) ? $(this).val() : "|" + $(this).val();
-  $("#custom_wrapper .output").eq(i).html(v);
-});
+ $("#inputs").on('input', 'input[type=text]', function(event) {
+    const values = [];
+    $(this).closest('#inputs').find('input[type=text]').each(function() {
+      values.push($('<span class="output"></span>').text($(this).val()).html());
+    });
+    $("#custom_wrapper").html(values.join('|'));
+  });
   
 
 $('.add').click(function() {
-  var count = $("#inputs input").length;
+  let count = $("#inputs input").length;
   count++;
-  var row = $("<div>", {
+  const row = $("<div>", {
   class: "flex-row"
   }).insertBefore(this);
-$("<label>").appendTo(row);
+ 
+$("<label>",{
+   for:"custom-text-" +count
+}).appendTo(row);
+
+$("<span>",{
+    text:"custom text" +count,
+    class:"visually-hidden"
+}).appendTo($("label", row));
+
 $("<input>", {
     type: "text",
     class: "input",
@@ -25,45 +36,57 @@ $("<input>", {
     id:"custom-text-" +count,
     tabindex: count
   }).appendTo($("label", row));
-$("<button>", {
-    class: "remove"
-  }).html("-").appendTo(row);
-$("<span>", {
-    class: "output",
-    dataid:"custom-text-" +count,
-  }).insertAfter($("#custom_wrapper .output:last"));
-});
-      
-$('body').on('click','.remove', function(){
-  $(this).parent('.flex-row').remove();  
-  var j =$(this).parent().find('.input').attr("id");
-  $('#custom_wrapper .output[dataid="'+ j +'"').empty();    
-}) 
 
+$("<button>", {
+    class: "remove",
+    type:"button",
+    "aria-label":"remove"
+  }).html("-").appendTo(row);
+  });
+      
+  $('body').on('click', '.remove', function() {
+    
+    $(this).parent('.flex-row').remove();
+    if($('#inputs input[type=text]').length) {
+      $('#inputs input[type=text]').eq(0).trigger('input');
+    } else {
+      $('#custom_wrapper').html('');
+    }
+  });
+ 
 //input email fragments
 $('.fragment-quantity').on('change', function () {
-  var q = $(this).closest(".flex-col-sm-6").index();
-  var y = (q == 0) ? $(this).val() : "," + $(this).val();
+  const q = $(this).closest(".flex-col-sm-6").index();
+  const y = (q === 0) ? $(this).val() : "," + $(this).val();
   $("#custom_nb_wrapper .qty-output").eq(q).html(y);
 });
 });
+
+
 
 
 /***********************************************/
 /* COPY TO CLIPBOARD FUNCTION */
 /***********************************************/
 
-$('.token').wrap('<div class="token-block"></div>');   
-  $('.token-block').each(function(){     
-      $(this).append('<button type="button" class="copy" onclick="copy(this)" aria-hidden="false" aria-label="Copy to clipboard"><span class="visually-hidden">Copy to Clipboard</span></button>');
-  }); 
-function copy(element) {
-var $temp = $("<textarea>");
-    $("body").append($temp);
-    $temp.val($(element).parent().find('.token').text()).select();
-    document.execCommand("copy");
-    $temp.remove();
-}
+$(document).on('click', '.copy', function () {
+    const tokenText = $(this).closest('.token-block').find('.token').text();
+
+    if (!navigator.clipboard) {
+        console.error('Clipboard API non disponible');
+        return;
+    }
+
+    navigator.clipboard.writeText(tokenText)
+        .then(() => {
+            $(this).text("Copié !").delay(2000).queue(function () {
+                $(this).text("Copier").dequeue();
+            });
+        })
+        .catch(err => {
+            console.error("Erreur :", err);
+        });
+});
 
 $(function () {
  thisyear = new Date().getFullYear();
