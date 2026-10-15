@@ -65,7 +65,7 @@ $('.fragment-quantity').on('change', function () {
 	$('.token-block').each(function(){     
     	$(this).append('<button type="button" class="copy" aria-hidden="false" aria-label="Copy to clipboard">Copier</button>');
 	});   
-});
+
 /***********************************************/
 /* COPY TO CLIPBOARD FUNCTION */
 /***********************************************/
