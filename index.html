@@ -73,7 +73,7 @@
             <div class="token">{{$DocumentID}}</div>
             <div class="token">{{approvedEmailAction[,FR_001]}}</div>
           </section>
-          <section id="tokenList">
+          <section id="sfmctokenList">
             <h2>Salesforce Token List</h2>
             <p>Mirror link : </p>
             <div class="token">%%view_email_url%%</div>
@@ -81,7 +81,7 @@
             <div class="token">%%=RedirectTo(@UnsubscribeUrl)=%%</div>
             <p>Tracking</p>
             <div class="token">
-              <pre><code>&lt;custom name="opencounter" type="tracking"/&gt;</pre></code>
+              <pre><code>&lt;custom name="opencounter" type="tracking"/&gt;</code></pre>
             </div>
             <p>Link to survey</p>
             <div class="token">%%=RedirectTo(@surveyUrl)=%%</div>
